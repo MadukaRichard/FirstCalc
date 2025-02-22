@@ -3,148 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Responsive Calculator</title>
     <style>
-        body{
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
             background: linear-gradient(130deg, blue, skyblue);
             height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1em;
         }
-        .container{
-            width: 600px;
-            margin: auto;
-           background-color: rgba(27,27,27,0.3);
-           -webkit-backdrop-filter: blur(10px);
-           backdrop-filter: blur(10px);
+
+        .container {
+            max-width: 90%;
+            width: 400px;
+            background-color: rgba(27, 27, 27, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 1.5em;
+            border-radius: 15px;
             display: flex;
             flex-direction: column;
             gap: 1em;
-            padding: 1em;
-            border-radius: 15px;
-            z-index: 4;
+            text-align: center;
         }
-        .input{
+
+        .input {
             display: flex;
-            flex-direction: row;
-            justify-content: center;
-            gap: 2em;
+            flex-direction: column;
+            gap: 1em;
         }
-        .input input{
+
+        .input input {
             border: 0;
             outline: 0;
             padding: 1em;
-            border-radius: 15px;
-        }
-        input::placeholder{
+            border-radius: 10px;
             text-align: center;
-        }
-        .buttons{
-            display: flex;
-            flex-direction: column;
-            gap: .5em;
-        }
-        .buttons button{
-            border: 0; 
-            padding: 1em;
-            border-radius: 5px;  
-            background-color: rgba(255,255,255,0.9);
-            z-index: 7;
-        }
-        .buttons .red{
-            border: 2px solid red;
-            opacity: 0.8;
-            color: white;
-            background-color: transparent;
-        }
-        .buttons .red:hover{
-            background-color: red;
-            opacity: 0.8;
-            color: white;
-        }
-        .container-2{
-            display: flex;
-            gap: 1em; 
+            font-size: 1.1em;
+            width: 100%;
         }
 
-        #output{
-            display: flex; 
-            justify-content: center;
-            align-items: center;
-            width: 500px;
-            background-color: rgba(0,0,0,0.3);
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.5em;
+        }
+
+        .buttons button {
+            border: 0;
+            padding: 1em;
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.9);
+            font-size: 1em;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .buttons button:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .buttons .red {
+            border: 2px solid red;
+            background-color: transparent;
+            color: white;
+        }
+
+        .buttons .red:hover {
+            background-color: red;
+            color: white;
+        }
+
+        #output {
+            padding: 1em;
+            background-color: rgba(0, 0, 0, 0.3);
             color: white;
             font-size: 1.5em;
-            border-radius: 10px; 
-       }
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 500px) {
+            .container {
+                width: 100%;
+            }
+
+            .buttons {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="input">
-            <input type="text" placeholder="Type a number.." id="value1">
-            <input type="text" placeholder="Type a number.." id="value2">
+            <input type="number" placeholder="Enter first number..." id="value1">
+            <input type="number" placeholder="Enter second number..." id="value2">
         </div>
-        <div class="container-2">
         <div class="buttons">
             <button onclick="reset()" class="red">Reset</button>
             <button onclick="add()">+</button>
-            <button onclick="multiply()">x</button>
-            <button onclick="divide()">/</button>
-            <button onclick="subtract()">-</button>
+            <button onclick="subtract()">−</button>
+            <button onclick="multiply()">×</button>
+            <button onclick="divide()">÷</button>
             <button onclick="mod()">%</button>
             <button onclick="Exp()">Exp</button>
         </div>
-        <div  id="output"></div>
-        </div>
+        <div id="output">0</div>
     </div>
-</body>
-<script>
-    function clear() {
+
+    <script>
+        function clearOutput() {
             document.getElementById('output').innerHTML = "0";
         }
-        document.getElementById("value1").addEventListener("input", clear)
-        document.getElementById("value2").addEventListener("input", clear)
+        
+        document.getElementById("value1").addEventListener("input", clearOutput);
+        document.getElementById("value2").addEventListener("input", clearOutput);
 
         function reset() {
-        document.getElementById('value1').value = "";
-        document.getElementById('value2').value = "";
-        document.getElementById('output').innerHTML = "0";
-    }
-    function add() {
-        let ADD1 = document.getElementById('value1').value
-        let ADD2 =  document.getElementById('value2').value
-        let ADDITION = (`${+ADD1 + +ADD2}`)
-        document.getElementById('output').innerHTML = ADDITION 
-    }
-    function multiply() {
-        let MUL1 = document.getElementById('value1').value
-        let MUL2 =  document.getElementById('value2').value
-        let MULTIPLICATION = (`${+MUL1 * +MUL2}`)
-        document.getElementById('output').innerHTML = MULTIPLICATION
-    }
-    function divide() {
-        let DIV1 = document.getElementById('value1').value
-        let DIV2 =  document.getElementById('value2').value
-        let DIVISION = (`${+DIV1 / +DIV2}`)
-        document.getElementById('output').innerHTML = DIVISION
-    }
-    function subtract() {
-        let SUB1 = document.getElementById('value1').value
-        let SUB2 =  document.getElementById('value2').value
-        let SUBTRACTION = (`${+SUB1 - +SUB2}`)
-        document.getElementById('output').innerHTML = SUBTRACTION
-    }
-    function mod() {
-        let MOD1 = document.getElementById('value1').value
-        let MOD2 =  document.getElementById('value2').value
-        let MODULUS = (`${+MOD1 % +MOD2}`)
-        document.getElementById('output').innerHTML = MODULUS
-    }
-    function Exp() {
-        let EXP1 = document.getElementById('value1').value
-        let EXP2 =  document.getElementById('value2').value
-        let EXPONENTIAL = `${Math.pow(+EXP1, +EXP2)}`;
-        document.getElementById('output').innerHTML = EXPONENTIAL
-    }
-    
-</script>
+            document.getElementById('value1').value = "";
+            document.getElementById('value2').value = "";
+            clearOutput();
+        }
+
+        function add() {
+            let num1 = parseFloat(document.getElementById('value1').value) || 0;
+            let num2 = parseFloat(document.getElementById('value2').value) || 0;
+            document.getElementById('output').innerHTML = num1 + num2;
+        }
+
+        function subtract() {
+            let num1 = parseFloat(document.getElementById('value1').value) || 0;
+            let num2 = parseFloat(document.getElementById('value2').value) || 0;
+            document.getElementById('output').innerHTML = num1 - num2;
+        }
+
+        function multiply() {
+            let num1 = parseFloat(document.getElementById('value1').value) || 0;
+            let num2 = parseFloat(document.getElementById('value2').value) || 0;
+            document.getElementById('output').innerHTML = num1 * num2;
+        }
+
+        function divide() {
+            let num1 = parseFloat(document.getElementById('value1').value) || 0;
+            let num2 = parseFloat(document.getElementById('value2').value) || 1;
+            document.getElementById('output').innerHTML = (num2 === 0) ? "Cannot divide by 0" : (num1 / num2).toFixed(2);
+        }
+
+        function mod() {
+            let num1 = parseFloat(document.getElementById('value1').value) || 0;
+            let num2 = parseFloat(document.getElementById('value2').value) || 1;
+            document.getElementById('output').innerHTML = num1 % num2;
+        }
+
+        function Exp() {
+            let num1 = parseFloat(document.getElementById('value1').value) || 0;
+            let num2 = parseFloat(document.getElementById('value2').value) || 0;
+            document.getElementById('output').innerHTML = Math.pow(num1, num2);
+        }
+    </script>
+</body>
 </html>
